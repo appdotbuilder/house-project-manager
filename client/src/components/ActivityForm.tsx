@@ -69,10 +69,10 @@ export function ActivityForm({ projectId, onActivityCreated }: ActivityFormProps
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Plus className="h-5 w-5 text-green-600" />
-          Add New Activity
+          Agregar Nueva Actividad
         </CardTitle>
         <CardDescription>
-          Create a construction activity with timeline and budget details
+          Crear una actividad de construcción con detalles de cronograma y presupuesto
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -80,7 +80,7 @@ export function ActivityForm({ projectId, onActivityCreated }: ActivityFormProps
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="activity-name" className="flex items-center gap-1">
-                📋 Activity Name *
+                📋 Nombre de la Actividad *
               </Label>
               <Input
                 id="activity-name"
@@ -88,7 +88,7 @@ export function ActivityForm({ projectId, onActivityCreated }: ActivityFormProps
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setFormData((prev: CreateActivityInput) => ({ ...prev, name: e.target.value }))
                 }
-                placeholder="Foundation work, Roofing, Electrical..."
+                placeholder="Trabajo de cimientos, Techado, Electricidad..."
                 required
               />
             </div>
@@ -96,7 +96,7 @@ export function ActivityForm({ projectId, onActivityCreated }: ActivityFormProps
             <div className="space-y-2">
               <Label htmlFor="contractor" className="flex items-center gap-1">
                 <User className="h-4 w-4" />
-                Contractor
+                Contratista
               </Label>
               <Input
                 id="contractor"
@@ -107,13 +107,13 @@ export function ActivityForm({ projectId, onActivityCreated }: ActivityFormProps
                     contractor: e.target.value || null
                   }))
                 }
-                placeholder="Contractor name or company"
+                placeholder="Nombre del contratista o empresa"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="activity-description">Description</Label>
+            <Label htmlFor="activity-description">Descripción</Label>
             <Textarea
               id="activity-description"
               value={formData.description || ''}
@@ -123,7 +123,7 @@ export function ActivityForm({ projectId, onActivityCreated }: ActivityFormProps
                   description: e.target.value || null
                 }))
               }
-              placeholder="Detailed description of the construction activity..."
+              placeholder="Descripción detallada de la actividad de construcción..."
               className="min-h-[80px]"
             />
           </div>
@@ -132,7 +132,7 @@ export function ActivityForm({ projectId, onActivityCreated }: ActivityFormProps
             <div className="space-y-2">
               <Label htmlFor="planned-budget" className="flex items-center gap-1">
                 <DollarSign className="h-4 w-4" />
-                Planned Budget (USD) *
+                Presupuesto Planificado (USD) *
               </Label>
               <Input
                 id="planned-budget"
@@ -154,7 +154,7 @@ export function ActivityForm({ projectId, onActivityCreated }: ActivityFormProps
             <div className="space-y-2">
               <Label htmlFor="start-date" className="flex items-center gap-1">
                 <Calendar className="h-4 w-4" />
-                Estimated Start *
+                Inicio Estimado *
               </Label>
               <Input
                 id="start-date"
@@ -173,7 +173,7 @@ export function ActivityForm({ projectId, onActivityCreated }: ActivityFormProps
             <div className="space-y-2">
               <Label htmlFor="end-date" className="flex items-center gap-1">
                 <Calendar className="h-4 w-4" />
-                Estimated End *
+                Finalización Estimada *
               </Label>
               <Input
                 id="end-date"
@@ -193,26 +193,26 @@ export function ActivityForm({ projectId, onActivityCreated }: ActivityFormProps
           {/* Activity Preview */}
           {formData.name && formData.planned_budget_usd > 0 && (
             <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <h4 className="font-medium text-blue-900 mb-2">📋 Activity Preview</h4>
+              <h4 className="font-medium text-blue-900 mb-2">📋 Vista Previa de la Actividad</h4>
               <div className="space-y-2 text-sm">
                 <div>
-                  <span className="text-blue-700">Activity: </span>
+                  <span className="text-blue-700">Actividad: </span>
                   <span className="font-semibold">{formData.name}</span>
                 </div>
                 {formData.contractor && (
                   <div>
-                    <span className="text-blue-700">Contractor: </span>
+                    <span className="text-blue-700">Contratista: </span>
                     <span className="font-semibold">{formData.contractor}</span>
                   </div>
                 )}
                 <div>
-                  <span className="text-blue-700">Budget: </span>
+                  <span className="text-blue-700">Presupuesto: </span>
                   <span className="font-semibold">${formData.planned_budget_usd.toLocaleString()}</span>
                 </div>
                 <div>
-                  <span className="text-blue-700">Duration: </span>
+                  <span className="text-blue-700">Duración: </span>
                   <span className="font-semibold">
-                    {Math.ceil((formData.estimated_end_date.getTime() - formData.estimated_start_date.getTime()) / (1000 * 60 * 60 * 24))} days
+                    {Math.ceil((formData.estimated_end_date.getTime() - formData.estimated_start_date.getTime()) / (1000 * 60 * 60 * 24))} días
                   </span>
                 </div>
               </div>
@@ -223,12 +223,12 @@ export function ActivityForm({ projectId, onActivityCreated }: ActivityFormProps
             {isLoading ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                Creating Activity...
+                Creando Actividad...
               </>
             ) : (
               <>
                 <Plus className="h-4 w-4 mr-2" />
-                Add Activity
+                Agregar Actividad
               </>
             )}
           </Button>

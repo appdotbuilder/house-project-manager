@@ -100,13 +100,23 @@ export function ActivityList({ activities, onActivityUpdated, isLoading }: Activ
     }
   };
 
+  const getStatusText = (status: Activity['status']) => {
+    switch (status) {
+      case 'planned': return 'Planificado';
+      case 'in_progress': return 'En Progreso';
+      case 'completed': return 'Completado';
+      case 'cancelled': return 'Cancelado';
+      default: return status;
+    }
+  };
+
   const formatDateForInput = (date: Date | null) => {
     if (!date) return '';
     return date.toISOString().split('T')[0];
   };
 
   const formatCurrency = (amount: number, currency: string = 'USD') => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('es-CR', {
       style: 'currency',
       currency: currency,
       minimumFractionDigits: 2
@@ -123,7 +133,7 @@ export function ActivityList({ activities, onActivityUpdated, isLoading }: Activ
       <Card>
         <CardContent className="text-center py-12">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading activities...</p>
+          <p className="text-gray-600">Cargando actividades...</p>
         </CardContent>
       </Card>
     );
@@ -137,21 +147,21 @@ export function ActivityList({ activities, onActivityUpdated, isLoading }: Activ
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="flex items-center gap-2">
-                📋 Project Activities
-                <Badge variant="outline">{filteredActivities.length} activities</Badge>
+                📋 Actividades del Proyecto
+                <Badge variant="outline">{filteredActivities.length} actividades</Badge>
               </CardTitle>
-              <CardDescription>Track progress and manage construction activities</CardDescription>
+              <CardDescription>Rastrea el progreso y gestiona las actividades de construcción</CardDescription>
             </div>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
               <SelectTrigger className="w-40">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="planned">Planned</SelectItem>
-                <SelectItem value="in_progress">In Progress</SelectItem>
-                <SelectItem value="completed">Completed</SelectItem>
-                <SelectItem value="cancelled">Cancelled</SelectItem>
+                <SelectItem value="all">Todos los Estados</SelectItem>
+                <SelectItem value="planned">Planificado</SelectItem>
+                <SelectItem value="in_progress">En Progreso</SelectItem>
+                <SelectItem value="completed">Completado</SelectItem>
+                <SelectItem value="cancelled">Cancelado</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -164,12 +174,12 @@ export function ActivityList({ activities, onActivityUpdated, isLoading }: Activ
           <CardContent className="text-center py-12">
             <Calendar className="h-12 w-12 mx-auto mb-4 text-gray-400" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">
-              {statusFilter === 'all' ? 'No Activities Yet' : `No ${statusFilter.replace('_', ' ')} Activities`}
+              {statusFilter === 'all' ? 'No Hay Actividades Aún' : `No Hay Actividades ${getStatusText(statusFilter as Activity['status'])}`}
             </h3>
             <p className="text-gray-600">
               {statusFilter === 'all' ? 
-                'Add your first construction activity to get started.' :
-                `No activities with ${statusFilter.replace('_', ' ')} status found.`
+                'Agrega tu primera actividad de construcción para comenzar.' :
+                `No se encontraron actividades con estado ${getStatusText(statusFilter as Activity['status'])}.`
               }
             </p>
           </CardContent>
@@ -201,7 +211,7 @@ export function ActivityList({ activities, onActivityUpdated, isLoading }: Activ
                   <div className="flex items-center gap-2">
                     <Badge className={getStatusColor(activity.status)}>
                       {getStatusIcon(activity.status)}
-                      <span className="ml-1">{activity.status.replace('_', ' ')}</span>
+                      <span className="ml-1">{getStatusText(activity.status)}</span>
                     </Badge>
                   </div>
                 </div>
@@ -209,20 +219,20 @@ export function ActivityList({ activities, onActivityUpdated, isLoading }: Activ
                 {/* Budget Information */}
                 <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4 mb-4">
                   <div className="p-3 bg-blue-50 rounded-lg">
-                    <div className="text-sm text-blue-600 mb-1">Planned Budget</div>
+                    <div className="text-sm text-blue-600 mb-1">Presupuesto Planificado</div>
                     <div className="font-semibold text-blue-900">{formatCurrency(activity.planned_budget_usd)}</div>
                   </div>
                   
                   {activity.actual_cost_crc && (
                     <div className="p-3 bg-green-50 rounded-lg">
-                      <div className="text-sm text-green-600 mb-1">Actual Cost (CRC)</div>
+                      <div className="text-sm text-green-600 mb-1">Costo Real (CRC)</div>
                       <div className="font-semibold text-green-900">₡{activity.actual_cost_crc.toLocaleString()}</div>
                     </div>
                   )}
 
                   {activity.actual_start_date && (
                     <div className="p-3 bg-purple-50 rounded-lg">
-                      <div className="text-sm text-purple-600 mb-1">Actual Start</div>
+                      <div className="text-sm text-purple-600 mb-1">Inicio Real</div>
                       <div className="font-semibold text-purple-900">
                         {activity.actual_start_date.toLocaleDateString()}
                       </div>
@@ -231,7 +241,7 @@ export function ActivityList({ activities, onActivityUpdated, isLoading }: Activ
 
                   {activity.actual_end_date && (
                     <div className="p-3 bg-orange-50 rounded-lg">
-                      <div className="text-sm text-orange-600 mb-1">Actual End</div>
+                      <div className="text-sm text-orange-600 mb-1">Finalización Real</div>
                       <div className="font-semibold text-orange-900">
                         {activity.actual_end_date.toLocaleDateString()}
                       </div>
@@ -248,20 +258,20 @@ export function ActivityList({ activities, onActivityUpdated, isLoading }: Activ
                         <AlertDialogTrigger asChild>
                           <Button variant="outline" size="sm">
                             <Play className="h-4 w-4 mr-1" />
-                            Start
+                            Iniciar
                           </Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
-                            <AlertDialogTitle>Start Activity</AlertDialogTitle>
+                            <AlertDialogTitle>Iniciar Actividad</AlertDialogTitle>
                             <AlertDialogDescription>
-                              This will mark "{activity.name}" as in progress and set the actual start date to today.
+                              Esto marcará "{activity.name}" como en progreso y establecerá la fecha de inicio real a hoy.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
                             <AlertDialogAction onClick={() => handleStatusUpdate(activity, 'in_progress')}>
-                              Start Activity
+                              Iniciar Actividad
                             </AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>
@@ -273,20 +283,20 @@ export function ActivityList({ activities, onActivityUpdated, isLoading }: Activ
                         <AlertDialogTrigger asChild>
                           <Button variant="outline" size="sm" className="text-green-600 border-green-300">
                             <CheckCircle className="h-4 w-4 mr-1" />
-                            Complete
+                            Completar
                           </Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
-                            <AlertDialogTitle>Complete Activity</AlertDialogTitle>
+                            <AlertDialogTitle>Completar Actividad</AlertDialogTitle>
                             <AlertDialogDescription>
-                              This will mark "{activity.name}" as completed and set the actual end date to today.
+                              Esto marcará "{activity.name}" como completada y establecerá la fecha de finalización real a hoy.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
                             <AlertDialogAction onClick={() => handleStatusUpdate(activity, 'completed')}>
-                              Complete Activity
+                              Completar Actividad
                             </AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>
@@ -298,14 +308,14 @@ export function ActivityList({ activities, onActivityUpdated, isLoading }: Activ
                     <DialogTrigger asChild>
                       <Button variant="outline" size="sm" onClick={() => handleEditClick(activity)}>
                         <Edit className="h-4 w-4 mr-1" />
-                        Edit Details
+                        Editar Detalles
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[600px]">
                       <DialogHeader>
-                        <DialogTitle>Edit Activity</DialogTitle>
+                        <DialogTitle>Editar Actividad</DialogTitle>
                         <DialogDescription>
-                          Update activity details, budget, and actual costs
+                          Actualiza los detalles de la actividad, presupuesto y costos reales
                         </DialogDescription>
                       </DialogHeader>
                       
@@ -313,7 +323,7 @@ export function ActivityList({ activities, onActivityUpdated, isLoading }: Activ
                         <div className="space-y-4">
                           <div className="grid gap-4 md:grid-cols-2">
                             <div className="space-y-2">
-                              <Label>Activity Name</Label>
+                              <Label>Nombre de la Actividad</Label>
                               <Input
                                 value={formData.name || ''}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -322,7 +332,7 @@ export function ActivityList({ activities, onActivityUpdated, isLoading }: Activ
                               />
                             </div>
                             <div className="space-y-2">
-                              <Label>Status</Label>
+                              <Label>Estado</Label>
                               <Select
                                 value={formData.status}
                                 onValueChange={(value) => setFormData((prev) => ({ ...prev, status: value as Activity['status'] }))}
@@ -331,10 +341,10 @@ export function ActivityList({ activities, onActivityUpdated, isLoading }: Activ
                                   <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  <SelectItem value="planned">Planned</SelectItem>
-                                  <SelectItem value="in_progress">In Progress</SelectItem>
-                                  <SelectItem value="completed">Completed</SelectItem>
-                                  <SelectItem value="cancelled">Cancelled</SelectItem>
+                                  <SelectItem value="planned">Planificado</SelectItem>
+                                  <SelectItem value="in_progress">En Progreso</SelectItem>
+                                  <SelectItem value="completed">Completado</SelectItem>
+                                  <SelectItem value="cancelled">Cancelado</SelectItem>
                                 </SelectContent>
                               </Select>
                             </div>
@@ -342,7 +352,7 @@ export function ActivityList({ activities, onActivityUpdated, isLoading }: Activ
 
                           <div className="grid gap-4 md:grid-cols-2">
                             <div className="space-y-2">
-                              <Label>Contractor</Label>
+                              <Label>Contratista</Label>
                               <Input
                                 value={formData.contractor || ''}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -351,7 +361,7 @@ export function ActivityList({ activities, onActivityUpdated, isLoading }: Activ
                               />
                             </div>
                             <div className="space-y-2">
-                              <Label>Planned Budget (USD)</Label>
+                              <Label>Presupuesto Planificado (USD)</Label>
                               <Input
                                 type="number"
                                 value={formData.planned_budget_usd || ''}
@@ -364,7 +374,7 @@ export function ActivityList({ activities, onActivityUpdated, isLoading }: Activ
 
                           <div className="grid gap-4 md:grid-cols-2">
                             <div className="space-y-2">
-                              <Label>Actual Start Date</Label>
+                              <Label>Fecha de Inicio Real</Label>
                               <Input
                                 type="date"
                                 value={formatDateForInput(formData.actual_start_date || null)}
@@ -374,7 +384,7 @@ export function ActivityList({ activities, onActivityUpdated, isLoading }: Activ
                               />
                             </div>
                             <div className="space-y-2">
-                              <Label>Actual End Date</Label>
+                              <Label>Fecha de Finalización Real</Label>
                               <Input
                                 type="date"
                                 value={formatDateForInput(formData.actual_end_date || null)}
@@ -386,23 +396,23 @@ export function ActivityList({ activities, onActivityUpdated, isLoading }: Activ
                           </div>
 
                           <div className="space-y-2">
-                            <Label>Actual Cost (CRC)</Label>
+                            <Label>Costo Real (CRC)</Label>
                             <Input
                               type="number"
                               value={formData.actual_cost_crc || ''}
                               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                                 setFormData((prev) => ({ ...prev, actual_cost_crc: parseFloat(e.target.value) || null }))
                               }
-                              placeholder="Enter actual cost in Costa Rica Colones"
+                              placeholder="Ingresa el costo real en Colones de Costa Rica"
                             />
                           </div>
 
                           <div className="flex justify-end gap-2">
                             <Button variant="outline" onClick={() => setEditingActivity(null)}>
-                              Cancel
+                              Cancelar
                             </Button>
                             <Button onClick={handleUpdateActivity} disabled={updateLoading}>
-                              {updateLoading ? 'Updating...' : 'Update Activity'}
+                              {updateLoading ? 'Actualizando...' : 'Actualizar Actividad'}
                             </Button>
                           </div>
                         </div>

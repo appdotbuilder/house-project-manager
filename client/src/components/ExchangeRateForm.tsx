@@ -72,7 +72,7 @@ export function ExchangeRateForm({ project, onExchangeRateUpdated }: ExchangeRat
   };
 
   const formatCurrency = (amount: number, currency: string = 'USD') => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('es-CR', {
       style: 'currency',
       currency: currency,
       minimumFractionDigits: 2
@@ -95,9 +95,9 @@ export function ExchangeRateForm({ project, onExchangeRateUpdated }: ExchangeRat
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5 text-blue-600" />
-            Current Exchange Rate
+            Tipo de Cambio Actual
           </CardTitle>
-          <CardDescription>USD to Costa Rica Colones conversion rate</CardDescription>
+          <CardDescription>Tasa de conversión de USD a Colones de Costa Rica</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-3">
@@ -106,14 +106,14 @@ export function ExchangeRateForm({ project, onExchangeRateUpdated }: ExchangeRat
               <div className="text-2xl font-bold text-blue-900">
                 ₡{project.current_exchange_rate.toLocaleString()}
               </div>
-              <div className="text-sm text-blue-600">per $1 USD</div>
+              <div className="text-sm text-blue-600">por $1 USD</div>
             </div>
             
             <div className="text-center p-4 rounded-lg bg-green-50">
               <div className="text-2xl font-bold text-green-900">
                 ₡{(project.total_budget_usd * project.current_exchange_rate).toLocaleString()}
               </div>
-              <div className="text-sm text-green-600">Total Budget in CRC</div>
+              <div className="text-sm text-green-600">Presupuesto Total en CRC</div>
             </div>
 
             <div className="text-center p-4 rounded-lg bg-purple-50">
@@ -121,7 +121,7 @@ export function ExchangeRateForm({ project, onExchangeRateUpdated }: ExchangeRat
               <div className="text-lg font-bold text-purple-900">
                 {project.updated_at.toLocaleDateString()}
               </div>
-              <div className="text-sm text-purple-600">Last Updated</div>
+              <div className="text-sm text-purple-600">Última Actualización</div>
             </div>
           </div>
 
@@ -136,11 +136,11 @@ export function ExchangeRateForm({ project, onExchangeRateUpdated }: ExchangeRat
                   <RefreshCw className="h-4 w-4 text-gray-600" />
                 )}
                 <span className="text-sm font-medium">
-                  {rateChange.isIncrease ? 'Increased' : rateChange.isDecrease ? 'Decreased' : 'No change'} by{' '}
+                  {rateChange.isIncrease ? 'Aumentó' : rateChange.isDecrease ? 'Disminuyó' : 'Sin cambio'} en{' '}
                   <span className={rateChange.isIncrease ? 'text-green-600' : rateChange.isDecrease ? 'text-red-600' : 'text-gray-600'}>
                     {rateChange.percentage.toFixed(2)}%
                   </span>
-                  {' '}since last update
+                  {' '}desde la última actualización
                 </span>
               </div>
             </div>
@@ -153,18 +153,18 @@ export function ExchangeRateForm({ project, onExchangeRateUpdated }: ExchangeRat
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <RefreshCw className="h-5 w-5 text-green-600" />
-            Update Exchange Rate
+            Actualizar Tipo de Cambio
           </CardTitle>
           <CardDescription>
-            Update the USD to CRC exchange rate to reflect current market conditions
+            Actualiza la tasa de cambio de USD a CRC para reflejar las condiciones actuales del mercado
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Alert className="mb-6 border-blue-200 bg-blue-50">
             <AlertTriangle className="h-4 w-4" />
             <AlertDescription>
-              <strong>Demo Mode:</strong> Exchange rate updates are simulated. 
-              In production, this would update the project's current rate and affect all budget calculations.
+              <strong>Modo Demostración:</strong> Las actualizaciones del tipo de cambio están simuladas. 
+              En producción, esto actualizaría la tasa actual del proyecto y afectaría todos los cálculos presupuestales.
             </AlertDescription>
           </Alert>
 
@@ -172,7 +172,7 @@ export function ExchangeRateForm({ project, onExchangeRateUpdated }: ExchangeRat
             <div className="space-y-2">
               <Label htmlFor="new-rate" className="flex items-center gap-1">
                 <TrendingUp className="h-4 w-4" />
-                New Exchange Rate (USD to CRC) *
+                Nuevo Tipo de Cambio (USD a CRC) *
               </Label>
               <Input
                 id="new-rate"
@@ -187,7 +187,7 @@ export function ExchangeRateForm({ project, onExchangeRateUpdated }: ExchangeRat
                 required
               />
               <p className="text-xs text-gray-500">
-                Enter the current USD to CRC exchange rate (e.g., 550 means ₡550 per $1 USD)
+                Ingresa la tasa actual de USD a CRC (ej. 550 significa ₡550 por $1 USD)
               </p>
             </div>
 
@@ -199,19 +199,19 @@ export function ExchangeRateForm({ project, onExchangeRateUpdated }: ExchangeRat
                 <h4 className={`font-medium mb-3 ${
                   budgetImpact.difference > 0 ? 'text-green-900' : 'text-red-900'
                 }`}>
-                  💱 Budget Impact Preview
+                  💱 Vista Previa del Impacto en el Presupuesto
                 </h4>
                 <div className="grid gap-3 md:grid-cols-3 text-sm">
                   <div>
-                    <span className="text-gray-600">Current Budget (CRC): </span>
+                    <span className="text-gray-600">Presupuesto Actual (CRC): </span>
                     <span className="font-semibold">₡{budgetImpact.current.toLocaleString()}</span>
                   </div>
                   <div>
-                    <span className="text-gray-600">New Budget (CRC): </span>
+                    <span className="text-gray-600">Nuevo Presupuesto (CRC): </span>
                     <span className="font-semibold">₡{budgetImpact.new.toLocaleString()}</span>
                   </div>
                   <div>
-                    <span className="text-gray-600">Difference: </span>
+                    <span className="text-gray-600">Diferencia: </span>
                     <span className={`font-semibold ${
                       budgetImpact.difference > 0 ? 'text-green-600' : 'text-red-600'
                     }`}>
@@ -220,7 +220,7 @@ export function ExchangeRateForm({ project, onExchangeRateUpdated }: ExchangeRat
                   </div>
                 </div>
                 <div className="mt-2 text-xs text-gray-600">
-                  Exchange rate change: ₡{project.current_exchange_rate.toLocaleString()} → ₡{newRate.toLocaleString()} per USD
+                  Cambio en tipo de cambio: ₡{project.current_exchange_rate.toLocaleString()} → ₡{newRate.toLocaleString()} por USD
                 </div>
               </div>
             )}
@@ -229,12 +229,12 @@ export function ExchangeRateForm({ project, onExchangeRateUpdated }: ExchangeRat
               {isLoading ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  Updating Rate...
+                  Actualizando Tasa...
                 </>
               ) : (
                 <>
                   <RefreshCw className="h-4 w-4 mr-2" />
-                  Update Exchange Rate
+                  Actualizar Tipo de Cambio
                 </>
               )}
             </Button>
@@ -247,24 +247,24 @@ export function ExchangeRateForm({ project, onExchangeRateUpdated }: ExchangeRat
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Calendar className="h-5 w-5 text-purple-600" />
-            Exchange Rate History
+            Historial de Tipos de Cambio
             {rateHistory.length > 0 && (
-              <Badge variant="outline">{rateHistory.length} updates</Badge>
+              <Badge variant="outline">{rateHistory.length} actualizaciones</Badge>
             )}
           </CardTitle>
-          <CardDescription>Track exchange rate changes over time</CardDescription>
+          <CardDescription>Rastrea los cambios en el tipo de cambio a lo largo del tiempo</CardDescription>
         </CardHeader>
         <CardContent>
           {historyLoading ? (
             <div className="text-center py-6">
               <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-purple-600 mx-auto mb-2"></div>
-              <p className="text-gray-600">Loading rate history...</p>
+              <p className="text-gray-600">Cargando historial de tasas...</p>
             </div>
           ) : rateHistory.length === 0 ? (
             <div className="text-center py-8">
               <TrendingUp className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-              <p className="text-gray-600">No rate history available yet.</p>
-              <p className="text-sm text-gray-500">Rate changes will appear here after you update the exchange rate.</p>
+              <p className="text-gray-600">No hay historial de tasas disponible aún.</p>
+              <p className="text-sm text-gray-500">Los cambios de tasa aparecerán aquí después de actualizar el tipo de cambio.</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -274,7 +274,7 @@ export function ExchangeRateForm({ project, onExchangeRateUpdated }: ExchangeRat
                     <TrendingUp className="h-4 w-4 text-purple-600" />
                     <div>
                       <div className="font-medium">₡{rate.usd_to_crc_rate.toLocaleString()}</div>
-                      <div className="text-sm text-gray-600">per $1 USD</div>
+                      <div className="text-sm text-gray-600">por $1 USD</div>
                     </div>
                   </div>
                   <div className="text-right">

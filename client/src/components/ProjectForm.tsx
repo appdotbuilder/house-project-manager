@@ -110,44 +110,44 @@ export function ProjectForm({ onProjectCreated, onProjectUpdated, selectedProjec
                   <Building2 className="h-5 w-5 text-orange-600" />
                   {selectedProject.name}
                 </CardTitle>
-                <CardDescription>Current project details</CardDescription>
+                <CardDescription>Detalles del proyecto actual</CardDescription>
               </div>
               <Button onClick={handleEdit} variant="outline" size="sm">
                 <Edit className="h-4 w-4 mr-1" />
-                Edit Project
+                Editar Proyecto
               </Button>
             </div>
           </CardHeader>
           <CardContent>
             <div className="grid gap-4 md:grid-cols-2">
               <div>
-                <Label className="text-sm font-medium text-gray-500">Description</Label>
-                <p className="mt-1">{selectedProject.description || 'No description provided'}</p>
+                <Label className="text-sm font-medium text-gray-500">Descripción</Label>
+                <p className="mt-1">{selectedProject.description || 'No se proporcionó descripción'}</p>
               </div>
               <div>
-                <Label className="text-sm font-medium text-gray-500">Total Budget</Label>
+                <Label className="text-sm font-medium text-gray-500">Presupuesto Total</Label>
                 <p className="mt-1 font-semibold">
                   ${selectedProject.total_budget_usd.toLocaleString()}
                 </p>
               </div>
               <div>
-                <Label className="text-sm font-medium text-gray-500">Exchange Rate (USD to CRC)</Label>
+                <Label className="text-sm font-medium text-gray-500">Tipo de Cambio (USD a CRC)</Label>
                 <p className="mt-1 font-semibold">₡{selectedProject.current_exchange_rate.toLocaleString()}</p>
               </div>
               <div>
-                <Label className="text-sm font-medium text-gray-500">Project Duration</Label>
+                <Label className="text-sm font-medium text-gray-500">Duración del Proyecto</Label>
                 <p className="mt-1">
                   {selectedProject.start_date.toLocaleDateString()} - {selectedProject.end_date.toLocaleDateString()}
                 </p>
               </div>
               <div>
-                <Label className="text-sm font-medium text-gray-500">Budget in CRC</Label>
+                <Label className="text-sm font-medium text-gray-500">Presupuesto en CRC</Label>
                 <p className="mt-1 font-semibold text-green-600">
                   ₡{(selectedProject.total_budget_usd * selectedProject.current_exchange_rate).toLocaleString()}
                 </p>
               </div>
               <div>
-                <Label className="text-sm font-medium text-gray-500">Created</Label>
+                <Label className="text-sm font-medium text-gray-500">Creado</Label>
                 <p className="mt-1 text-sm text-gray-600">
                   {selectedProject.created_at.toLocaleDateString()}
                 </p>
@@ -164,19 +164,19 @@ export function ProjectForm({ onProjectCreated, onProjectUpdated, selectedProjec
             {isEditing ? (
               <>
                 <Edit className="h-5 w-5 text-blue-600" />
-                Edit Project
+                Editar Proyecto
               </>
             ) : (
               <>
                 <Plus className="h-5 w-5 text-green-600" />
-                Create New Project
+                Crear Nuevo Proyecto
               </>
             )}
           </CardTitle>
           <CardDescription>
             {isEditing ? 
-              'Update your project details below' : 
-              'Start by creating a new construction project with your budget and timeline'
+              'Actualiza los detalles de tu proyecto a continuación' : 
+              'Comienza creando un nuevo proyecto de construcción con tu presupuesto y cronograma'
             }
           </CardDescription>
         </CardHeader>
@@ -184,8 +184,8 @@ export function ProjectForm({ onProjectCreated, onProjectUpdated, selectedProjec
           <Alert className="mb-6 border-blue-200 bg-blue-50">
             <Building2 className="h-4 w-4" />
             <AlertDescription>
-              <strong>Demo Mode:</strong> Projects are created with mock data to demonstrate functionality. 
-              In production, this would connect to a real database.
+              <strong>Modo Demostración:</strong> Los proyectos se crean con datos de prueba para demostrar la funcionalidad. 
+              En producción, esto se conectaría a una base de datos real.
             </AlertDescription>
           </Alert>
 
@@ -194,7 +194,7 @@ export function ProjectForm({ onProjectCreated, onProjectUpdated, selectedProjec
               <div className="space-y-2">
                 <Label htmlFor="name" className="flex items-center gap-1">
                   <Building2 className="h-4 w-4" />
-                  Project Name *
+                  Nombre del Proyecto *
                 </Label>
                 <Input
                   id="name"
@@ -202,7 +202,7 @@ export function ProjectForm({ onProjectCreated, onProjectUpdated, selectedProjec
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setFormData((prev: CreateProjectInput) => ({ ...prev, name: e.target.value }))
                   }
-                  placeholder="My Dream House"
+                  placeholder="Mi Casa de Ensueño"
                   required
                 />
               </div>
@@ -210,7 +210,7 @@ export function ProjectForm({ onProjectCreated, onProjectUpdated, selectedProjec
               <div className="space-y-2">
                 <Label htmlFor="budget" className="flex items-center gap-1">
                   <DollarSign className="h-4 w-4" />
-                  Total Budget (USD) *
+                  Presupuesto Total (USD) *
                 </Label>
                 <Input
                   id="budget"
@@ -231,7 +231,7 @@ export function ProjectForm({ onProjectCreated, onProjectUpdated, selectedProjec
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description">Project Description</Label>
+              <Label htmlFor="description">Descripción del Proyecto</Label>
               <Textarea
                 id="description"
                 value={formData.description || ''}
@@ -241,7 +241,7 @@ export function ProjectForm({ onProjectCreated, onProjectUpdated, selectedProjec
                     description: e.target.value || null
                   }))
                 }
-                placeholder="Describe your construction project..."
+                placeholder="Describe tu proyecto de construcción..."
                 className="min-h-[80px]"
               />
             </div>
@@ -250,7 +250,7 @@ export function ProjectForm({ onProjectCreated, onProjectUpdated, selectedProjec
               <div className="space-y-2">
                 <Label htmlFor="exchange_rate" className="flex items-center gap-1">
                   <TrendingUp className="h-4 w-4" />
-                  Exchange Rate (USD to CRC) *
+                  Tipo de Cambio (USD a CRC) *
                 </Label>
                 <Input
                   id="exchange_rate"
@@ -268,14 +268,14 @@ export function ProjectForm({ onProjectCreated, onProjectUpdated, selectedProjec
                   required
                 />
                 <p className="text-xs text-gray-500">
-                  Current rate: ₡{formData.current_exchange_rate.toLocaleString()} per $1 USD
+                  Tarifa actual: ₡{formData.current_exchange_rate.toLocaleString()} por $1 USD
                 </p>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="start_date" className="flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
-                  Start Date *
+                  Fecha de Inicio *
                 </Label>
                 <Input
                   id="start_date"
@@ -294,7 +294,7 @@ export function ProjectForm({ onProjectCreated, onProjectUpdated, selectedProjec
               <div className="space-y-2">
                 <Label htmlFor="end_date" className="flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
-                  End Date *
+                  Fecha de Finalización *
                 </Label>
                 <Input
                   id="end_date"
@@ -314,14 +314,14 @@ export function ProjectForm({ onProjectCreated, onProjectUpdated, selectedProjec
             {/* Budget Preview */}
             {formData.total_budget_usd > 0 && formData.current_exchange_rate > 0 && (
               <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-                <h4 className="font-medium text-green-900 mb-2">💰 Budget Preview</h4>
+                <h4 className="font-medium text-green-900 mb-2">💰 Vista Previa del Presupuesto</h4>
                 <div className="grid gap-2 md:grid-cols-2 text-sm">
                   <div>
-                    <span className="text-green-700">USD Budget: </span>
+                    <span className="text-green-700">Presupuesto USD: </span>
                     <span className="font-semibold">${formData.total_budget_usd.toLocaleString()}</span>
                   </div>
                   <div>
-                    <span className="text-green-700">CRC Equivalent: </span>
+                    <span className="text-green-700">Equivalente CRC: </span>
                     <span className="font-semibold">
                       ₡{(formData.total_budget_usd * formData.current_exchange_rate).toLocaleString()}
                     </span>
@@ -335,19 +335,19 @@ export function ProjectForm({ onProjectCreated, onProjectUpdated, selectedProjec
                 {isLoading ? (
                   <>
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                    {isEditing ? 'Updating...' : 'Creating...'}
+                    {isEditing ? 'Actualizando...' : 'Creando...'}
                   </>
                 ) : (
                   <>
                     {isEditing ? <Edit className="h-4 w-4 mr-2" /> : <Plus className="h-4 w-4 mr-2" />}
-                    {isEditing ? 'Update Project' : 'Create Project'}
+                    {isEditing ? 'Actualizar Proyecto' : 'Crear Proyecto'}
                   </>
                 )}
               </Button>
 
               {isEditing && (
                 <Button type="button" variant="outline" onClick={handleCancel}>
-                  Cancel
+                  Cancelar
                 </Button>
               )}
             </div>

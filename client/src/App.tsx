@@ -170,7 +170,7 @@ function App() {
   };
 
   const formatCurrency = (amount: number, currency: string = 'USD') => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('es-CR', {
       style: 'currency',
       currency: currency,
       minimumFractionDigits: 2
@@ -187,12 +187,22 @@ function App() {
     }
   };
 
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'planned': return 'Planificado';
+      case 'in_progress': return 'En Progreso';
+      case 'completed': return 'Completado';
+      case 'cancelled': return 'Cancelado';
+      default: return status;
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-orange-50 flex items-center justify-center">
         <div className="text-center">
           <Building2 className="h-12 w-12 mx-auto mb-4 text-orange-600 animate-pulse" />
-          <p className="text-gray-600">Loading projects...</p>
+          <p className="text-gray-600">Cargando proyectos...</p>
         </div>
       </div>
     );
@@ -205,27 +215,27 @@ function App() {
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
             <Building2 className="h-8 w-8 text-orange-600" />
-            <h1 className="text-3xl font-bold text-gray-900">🏠 Construction Project Manager</h1>
+            <h1 className="text-3xl font-bold text-gray-900">🏠 Gestor de Proyectos de Construcción</h1>
           </div>
           <p className="text-gray-600">
-            Track your house construction project, manage budgets, and monitor progress
+            Rastrea tu proyecto de construcción de casa, gestiona presupuestos y monitorea el progreso
           </p>
         </div>
 
         {/* Project Selection */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-gray-900">Projects</h2>
+            <h2 className="text-xl font-semibold text-gray-900">Proyectos</h2>
             <Badge variant="outline" className="text-sm">
-              {projects.length} project{projects.length !== 1 ? 's' : ''}
+              {projects.length} proyecto{projects.length !== 1 ? 's' : ''}
             </Badge>
           </div>
 
           <Alert className="border-orange-200 bg-orange-50 mb-4">
             <Building2 className="h-4 w-4" />
             <AlertDescription>
-              <strong>Demo Mode:</strong> Backend handlers are stub implementations. 
-              You can create projects to explore the interface, but data won't persist between sessions.
+              <strong>Modo Demostración:</strong> Los controladores del backend son implementaciones de demostración. 
+              Puedes crear proyectos para explorar la interfaz, pero los datos no persistirán entre sesiones.
             </AlertDescription>
           </Alert>
           
@@ -233,26 +243,26 @@ function App() {
             <Card className="border-dashed border-2 border-gray-300">
               <CardContent className="text-center py-12">
                 <Building2 className="h-16 w-16 mx-auto mb-4 text-gray-400" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Welcome to Construction Project Manager! 🏗️</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">¡Bienvenido al Gestor de Proyectos de Construcción! 🏗️</h3>
                 <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                  Get started by creating your first construction project. Track activities, 
-                  manage budgets, and monitor progress all in one place.
+                  Comienza creando tu primer proyecto de construcción. Rastrea actividades, 
+                  gestiona presupuestos y monitorea el progreso todo en un solo lugar.
                 </p>
                 <div className="grid gap-4 max-w-2xl mx-auto md:grid-cols-3 text-sm">
                   <div className="p-4 bg-blue-50 rounded-lg">
                     <Calendar className="h-6 w-6 mx-auto mb-2 text-blue-600" />
-                    <div className="font-medium text-blue-900">Track Activities</div>
-                    <div className="text-blue-700">Manage construction tasks and timelines</div>
+                    <div className="font-medium text-blue-900">Rastrea Actividades</div>
+                    <div className="text-blue-700">Gestiona tareas de construcción y cronogramas</div>
                   </div>
                   <div className="p-4 bg-green-50 rounded-lg">
                     <DollarSign className="h-6 w-6 mx-auto mb-2 text-green-600" />
-                    <div className="font-medium text-green-900">Monitor Budget</div>
-                    <div className="text-green-700">USD budgets with CRC expense tracking</div>
+                    <div className="font-medium text-green-900">Monitorea Presupuesto</div>
+                    <div className="text-green-700">Presupuestos en USD con seguimiento de gastos en CRC</div>
                   </div>
                   <div className="p-4 bg-purple-50 rounded-lg">
                     <TrendingUp className="h-6 w-6 mx-auto mb-2 text-purple-600" />
-                    <div className="font-medium text-purple-900">Exchange Rates</div>
-                    <div className="text-purple-700">Manage USD to CRC conversions</div>
+                    <div className="font-medium text-purple-900">Tipos de Cambio</div>
+                    <div className="text-purple-700">Gestiona conversiones de USD a CRC</div>
                   </div>
                 </div>
               </CardContent>
@@ -277,17 +287,17 @@ function App() {
                     )}
                     <div className="space-y-2">
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-500">Budget:</span>
+                        <span className="text-gray-500">Presupuesto:</span>
                         <span className="font-medium">{formatCurrency(project.total_budget_usd)}</span>
                       </div>
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-500">Exchange Rate:</span>
+                        <span className="text-gray-500">Tipo de Cambio:</span>
                         <span className="font-medium">₡{project.current_exchange_rate.toLocaleString()}</span>
                       </div>
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-500">Duration:</span>
+                        <span className="text-gray-500">Duración:</span>
                         <span className="font-medium">
-                          {Math.ceil((project.end_date.getTime() - project.start_date.getTime()) / (1000 * 60 * 60 * 24))} days
+                          {Math.ceil((project.end_date.getTime() - project.start_date.getTime()) / (1000 * 60 * 60 * 24))} días
                         </span>
                       </div>
                     </div>
@@ -303,23 +313,23 @@ function App() {
           <TabsList className="grid w-full grid-cols-2 md:grid-cols-5">
             <TabsTrigger value="overview" className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
-              Overview
+              Resumen
             </TabsTrigger>
             <TabsTrigger value="activities" className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
-              Activities
+              Actividades
             </TabsTrigger>
             <TabsTrigger value="budget" className="flex items-center gap-2">
               <DollarSign className="h-4 w-4" />
-              Budget
+              Presupuesto
             </TabsTrigger>
             <TabsTrigger value="exchange" className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
-              Exchange Rate
+              Tipo de Cambio
             </TabsTrigger>
             <TabsTrigger value="projects" className="flex items-center gap-2">
               <Building2 className="h-4 w-4" />
-              Manage Projects
+              Gestionar Proyectos
             </TabsTrigger>
           </TabsList>
 
@@ -341,7 +351,7 @@ function App() {
                       {budgetAnalysis?.is_over_budget_risk && (
                         <Badge variant="destructive" className="flex items-center gap-1">
                           <AlertTriangle className="h-3 w-3" />
-                          Budget Risk
+                          Riesgo de Presupuesto
                         </Badge>
                       )}
                     </div>
@@ -353,28 +363,28 @@ function App() {
                         <div className="text-2xl font-bold text-blue-900">
                           {selectedProject.start_date.toLocaleDateString()}
                         </div>
-                        <div className="text-sm text-blue-600">Start Date</div>
+                        <div className="text-sm text-blue-600">Fecha de Inicio</div>
                       </div>
                       <div className="text-center p-4 rounded-lg bg-green-50">
                         <DollarSign className="h-6 w-6 mx-auto mb-2 text-green-600" />
                         <div className="text-2xl font-bold text-green-900">
                           {formatCurrency(selectedProject.total_budget_usd)}
                         </div>
-                        <div className="text-sm text-green-600">Total Budget</div>
+                        <div className="text-sm text-green-600">Presupuesto Total</div>
                       </div>
                       <div className="text-center p-4 rounded-lg bg-purple-50">
                         <TrendingUp className="h-6 w-6 mx-auto mb-2 text-purple-600" />
                         <div className="text-2xl font-bold text-purple-900">
                           ₡{selectedProject.current_exchange_rate.toLocaleString()}
                         </div>
-                        <div className="text-sm text-purple-600">Exchange Rate</div>
+                        <div className="text-sm text-purple-600">Tipo de Cambio</div>
                       </div>
                       <div className="text-center p-4 rounded-lg bg-orange-50">
                         <Users className="h-6 w-6 mx-auto mb-2 text-orange-600" />
                         <div className="text-2xl font-bold text-orange-900">
                           {activities.length}
                         </div>
-                        <div className="text-sm text-orange-600">Activities</div>
+                        <div className="text-sm text-orange-600">Actividades</div>
                       </div>
                     </div>
                   </CardContent>
@@ -391,13 +401,13 @@ function App() {
                 {/* Recent Activities */}
                 <Card>
                   <CardHeader>
-                    <CardTitle>Recent Activities</CardTitle>
-                    <CardDescription>Latest activity updates</CardDescription>
+                    <CardTitle>Actividades Recientes</CardTitle>
+                    <CardDescription>Últimas actualizaciones de actividades</CardDescription>
                   </CardHeader>
                   <CardContent>
                     {activities.length === 0 ? (
                       <p className="text-gray-500 text-center py-8">
-                        No activities yet. Add some activities to track your project progress.
+                        No hay actividades aún. Agrega algunas actividades para rastrear el progreso de tu proyecto.
                       </p>
                     ) : (
                       <div className="space-y-4">
@@ -406,12 +416,12 @@ function App() {
                             <div className="flex-1">
                               <h4 className="font-medium">{activity.name}</h4>
                               <p className="text-sm text-gray-600">
-                                {activity.contractor && `Contractor: ${activity.contractor} • `}
-                                Planned: {formatCurrency(activity.planned_budget_usd)}
+                                {activity.contractor && `Contratista: ${activity.contractor} • `}
+                                Planificado: {formatCurrency(activity.planned_budget_usd)}
                               </p>
                             </div>
                             <Badge className={getStatusColor(activity.status)}>
-                              {activity.status.replace('_', ' ')}
+                              {getStatusText(activity.status)}
                             </Badge>
                           </div>
                         ))}
@@ -424,9 +434,9 @@ function App() {
               <Card>
                 <CardContent className="text-center py-12">
                   <Building2 className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">No Project Selected</h3>
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">Ningún Proyecto Seleccionado</h3>
                   <p className="text-gray-600">
-                    Create a new project or select an existing one to get started.
+                    Crea un nuevo proyecto o selecciona uno existente para comenzar.
                   </p>
                 </CardContent>
               </Card>
@@ -451,7 +461,7 @@ function App() {
               <Card>
                 <CardContent className="text-center py-12">
                   <Calendar className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                  <p className="text-gray-600">Select a project to manage activities.</p>
+                  <p className="text-gray-600">Selecciona un proyecto para gestionar actividades.</p>
                 </CardContent>
               </Card>
             )}
@@ -469,7 +479,7 @@ function App() {
                 <Card>
                   <CardContent className="text-center py-12">
                     <DollarSign className="h-12 w-12 mx-auto mb-4 text-gray-400 animate-pulse" />
-                    <p className="text-gray-600">Loading budget analysis...</p>
+                    <p className="text-gray-600">Cargando análisis de presupuesto...</p>
                   </CardContent>
                 </Card>
               )
@@ -477,7 +487,7 @@ function App() {
               <Card>
                 <CardContent className="text-center py-12">
                   <DollarSign className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                  <p className="text-gray-600">Select a project to view budget analysis.</p>
+                  <p className="text-gray-600">Selecciona un proyecto para ver el análisis de presupuesto.</p>
                 </CardContent>
               </Card>
             )}
@@ -494,7 +504,7 @@ function App() {
               <Card>
                 <CardContent className="text-center py-12">
                   <TrendingUp className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                  <p className="text-gray-600">Select a project to manage exchange rates.</p>
+                  <p className="text-gray-600">Selecciona un proyecto para gestionar tipos de cambio.</p>
                 </CardContent>
               </Card>
             )}
